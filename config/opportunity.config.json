@@ -1,0 +1,32 @@
+{
+  "opportunityName": "{OPPORTUNITY_OR_PROJECT_NAME}",
+  "companyOrClient": "{COMPANY_OR_CLIENT}",
+  "preparedBy": "{YOUR_NAME_OR_COMPANY}",
+  "status": "{DRAFT | CLIENT_SAFE | PUBLIC_SAFE}",
+  "category": "{OPPORTUNITY_CATEGORY}",
+  "sourceQuality": "{SOURCE_QUALITY}",
+  "audience": "{TARGET_AUDIENCE}",
+  "roleFamily": [
+    "{ROLE_OR_DOMAIN_FAMILY}"
+  ],
+  "keywordsOrTechStack": [
+    "{TECH_1}",
+    "{TECH_2}",
+    "{TECH_3}"
+  ],
+  "targetUseCase": "{USER_ACTION} -> {INPUTS} -> {AUTOMATION_OR_SERVICE} -> {OUTPUT_PACKAGE}",
+  "architectureFlow": "{UI} -> {API} -> {STATE} -> {STORAGE_INPUT} -> {ORCHESTRATION_QUEUE} -> {WORKER} -> {STORAGE_OUTPUT} -> {REVIEW_NOTIFY} -> {OBSERVABILITY_AUDIT}",
+  "proofFiles": [
+    {
+      "path": "{PROOF_FILE_PATH}",
+      "purpose": "{WHAT_IT_PROVES}"
+    }
+  ],
+  "privacyNotes": [
+    "No proprietary client files.",
+    "No raw conversation records.",
+    "No private meeting links.",
+    "No credentials or tokens."
+  ]
+}
+

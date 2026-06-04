@@ -1,0 +1,10 @@
+.DS_Store
+dist/
+*.zip
+*.log
+.env
+.env.*
+node_modules/
+coverage/
+tmp/
+__pycache__/

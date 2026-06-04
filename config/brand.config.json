@@ -1,0 +1,18 @@
+{
+  "brandName": "{CLIENT_OR_PROJECT_BRAND}",
+  "brandSiteUrl": "{BRAND_SITE_URL}",
+  "dominantColors": {
+    "primary": "#2f155e",
+    "secondary": "#d02e53",
+    "accent": "#00a6a6",
+    "support": "#0875be"
+  },
+  "usage": {
+    "primary": "Hero, headings, high-emphasis borders",
+    "secondary": "Primary action, urgent proof points, active accents",
+    "accent": "Validation, success, confidence, workflow highlights",
+    "support": "Links, secondary actions, architecture/system items"
+  },
+  "notes": "Replace the four colors first, then adjust text only where contrast or brand tone requires it."
+}
+
