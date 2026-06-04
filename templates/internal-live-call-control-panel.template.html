@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internal Live Call Control Panel Template</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Private internal live-call template for opportunity preparation and technical discussion capture.">
+<style>
+:root{
+  --brand-primary:#2f155e;
+  --brand-secondary:#d02e53;
+  --brand-accent:#00a6a6;
+  --brand-support:#0875be;
+  --bg:#0f172a;
+  --panel:#111827;
+  --panel-2:#1f2937;
+  --ink:#f8fafc;
+  --muted:#cbd5e1;
+  --line:#334155;
+  --warn:#facc15;
+  --danger:#fecaca;
+  --ok:#bbf7d0;
+  --shadow:0 12px 28px rgba(0,0,0,.28);
+  --radius:12px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,var(--bg),#111827 54%,#0b1220);color:var(--ink);font-family:var(--sans);line-height:1.5;font-size:16px}
+a{color:#93c5fd;text-underline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;background:#fff;color:#000;padding:8px 12px;border-radius:8px}
+.skip:focus{left:8px;z-index:999}
+.hero{padding:30px clamp(18px,4vw,48px) 22px;border-bottom:1px solid var(--line);background:rgba(15,23,42,.96)}
+.eyebrow{font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-accent);font-size:.82rem}
+h1{margin:.35rem 0 .55rem;font-size:clamp(1.75rem,4vw,3.15rem);line-height:1.04;overflow-wrap:anywhere}
+h2,h3{line-height:1.12}
+.sub{max-width:1100px;color:var(--muted);font-size:1.05rem;overflow-wrap:anywhere}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid #475569;background:#0b1220;color:#e2e8f0;font-size:.86rem;font-weight:750}
+.pill.primary{background:color-mix(in srgb,var(--brand-primary) 72%,#020617)}
+.pill.secondary{background:color-mix(in srgb,var(--brand-secondary) 64%,#020617)}
+.pill.accent{background:color-mix(in srgb,var(--brand-accent) 58%,#020617)}
+.pill.support{background:color-mix(in srgb,var(--brand-support) 62%,#020617)}
+.toolbar{position:sticky;top:0;z-index:20;display:grid;grid-template-columns:minmax(0,1fr) auto auto auto auto auto auto;gap:8px;align-items:center;padding:10px clamp(12px,3vw,34px);background:rgba(2,6,23,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.toolbar input{width:100%;padding:11px 13px;border-radius:var(--radius);border:1px solid #475569;background:#0b1220;color:#fff;font-size:1rem}
+button,.button-like{border:1px solid #475569;background:#1e293b;color:#fff;border-radius:var(--radius);padding:9px 12px;font-weight:780;cursor:pointer;text-decoration:none}
+button:hover,.button-like:hover{background:#334155}
+button:focus,input:focus,textarea:focus,summary:focus{outline:3px solid var(--warn);outline-offset:2px}
+main{max-width:1480px;margin:0 auto;padding:18px clamp(12px,3vw,32px) 64px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px;align-items:stretch}
+.grid>*{min-width:0}
+.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-3{grid-column:span 3}
+.card{background:rgba(17,24,39,.92);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;min-width:0;overflow-wrap:anywhere}
+.card.primary{border-color:var(--brand-primary)}.card.secondary{border-color:var(--brand-secondary)}.card.accent{border-color:var(--brand-accent)}.card.support{border-color:var(--brand-support)}
+.card h2,.card h3{margin-top:0}.card h2{font-size:1.28rem}.card h3{font-size:1.05rem;color:#e2e8f0}
+.callout{border-left:4px solid var(--brand-accent);background:#0b1220;border-radius:var(--radius);padding:14px;margin:.8rem 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.copy-target{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.copy-btn{align-self:start;padding:6px 9px;font-size:.82rem;white-space:nowrap}
+pre,code{font-family:var(--mono)}
+pre{background:#020617;color:#e2e8f0;border:1px solid #334155;border-radius:var(--radius);padding:14px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+details{border:1px solid #334155;border-radius:var(--radius);background:rgba(15,23,42,.78);padding:8px 12px;margin:10px 0}
+summary{cursor:pointer;font-weight:850;color:#f8fafc;padding:6px}
+details[open]{background:rgba(15,23,42,.96)}
+table{width:100%;max-width:100%;table-layout:fixed;border-collapse:collapse;margin:.75rem 0;border:1px solid #334155;border-radius:var(--radius);overflow:hidden}
+th,td{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid #334155;overflow-wrap:anywhere}
+th{background:#020617;color:#e2e8f0;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}
+tr:last-child td{border-bottom:0}
+textarea{width:100%;min-height:152px;border-radius:var(--radius);border:1px solid #475569;background:#020617;color:#fff;padding:12px;font:1rem/1.45 var(--sans)}
+.notes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.timer{font-size:1.8rem;font-weight:900;color:var(--warn)}
+.toc{columns:2}.toc a{display:block;padding:5px 0}
+.muted{color:var(--muted)}.small{font-size:.9rem}.hide{display:none!important}
+.tight{padding-left:1.15rem}.tight li{margin:.18rem 0}
+body.focus .nonessential{display:none!important}
+body.focus main{max-width:1120px}
+body.focus .focus-keep{grid-column:span 12!important}
+body.large-text{font-size:19px}
+body.light-mode{--bg:#f8fafc;--panel:#fff;--panel-2:#e2e8f0;--ink:#0f172a;--muted:#334155;--line:#cbd5e1;background:#f8fafc;color:#0f172a}
+body.light-mode .toolbar,body.light-mode .hero{background:rgba(255,255,255,.96)}
+body.light-mode .card{background:#fff;color:#0f172a}
+body.light-mode .card h3{color:#1e293b}
+body.light-mode pre,body.light-mode textarea,body.light-mode .callout,body.light-mode .pill{background:#f1f5f9;color:#0f172a}
+body.light-mode th{background:#e2e8f0;color:#0f172a}
+@media(max-width:980px){.span-8,.span-7,.span-6,.span-5,.span-4,.span-3{grid-column:span 12}.toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:span 2}.notes-grid{grid-template-columns:1fr}.toc{columns:1}.callout{display:block}.copy-btn{margin-bottom:8px}}
+@media(max-width:620px){main{padding-inline:12px}.toolbar button{font-size:.9rem;padding:8px 9px}.card{padding:15px}table{display:block;overflow-x:auto}}
+@media print{.toolbar,.copy-btn,.skip{display:none!important}body{background:#fff;color:#111}.hero,.card{box-shadow:none;background:#fff;color:#111;border-color:#aaa}pre,textarea{background:#fff;color:#111;border-color:#aaa}a{color:#0645ad}.card{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="hero">
+  <div class="eyebrow">{CLIENT_OR_PROJECT_NAME} / internal live call template</div>
+  <h1>Internal Live Call Control Panel</h1>
+  <p class="sub">Private working surface for a live technical or team discussion. Copy this template into a private opportunity folder or private repo before adding real names, meeting details, notes, objections, or unapproved source material.</p>
+  <div class="pillrow" aria-label="Call anchors">
+    <span class="pill primary">{ANCHOR_1}</span>
+    <span class="pill secondary">{ANCHOR_2}</span>
+    <span class="pill accent">{ANCHOR_3}</span>
+    <span class="pill support">{ARCHITECTURE_ONE_LINER}</span>
+  </div>
+</header>
+<nav class="toolbar" aria-label="Page controls">
+  <input id="search" type="search" placeholder="Search: architecture, proof, risk, close, stack..." aria-label="Search cards">
+  <button id="focusToggle" type="button">Focus</button>
+  <button id="textToggle" type="button">Large text</button>
+  <button id="themeToggle" type="button">Light</button>
+  <button id="openAll" type="button">Open all</button>
+  <button id="closeAll" type="button">Close all</button>
+  <span id="matchCount" class="muted small" aria-live="polite">All cards</span>
+</nav>
+<main id="main">
+  <section class="grid" aria-label="Immediate call controls">
+    <article class="card secondary span-4 focus-keep" data-search="timer start time meeting call schedule countdown" id="timer-card">
+      <h2>Call Timer</h2>
+      <label class="small muted" for="targetTime">Target start time</label>
+      <input id="targetTime" type="datetime-local" aria-label="Target start time">
+      <div id="countdown" class="timer" aria-live="polite">Set time</div>
+      <p id="timerLabel" class="muted">Keep answers compact: direct answer, short evidence, relevance to their need, stop.</p>
+    </article>
+    <article class="card accent span-4 focus-keep" data-search="opening positioning statement introduce yourself concise" id="opening">
+      <h2>Opening Position</h2>
+      <div class="callout">
+        <p id="openingText" class="copy-target">I help teams turn {INPUT_DOMAIN} into reliable {OUTPUT_DOMAIN} by combining {DOMAIN_EXPERTISE}, {SOFTWARE_DELIVERY_SKILLS}, and practical delivery discipline. My goal on this call is to understand the highest-risk workflow, map the architecture clearly, and identify a narrow proof path.</p>
+        <button class="copy-btn" data-copy="openingText" type="button">Copy</button>
+      </div>
+    </article>
+    <article class="card span-4 focus-keep" data-search="rapid answer recovery can do this risks next step" id="rapid-card">
+      <h2>Rapid Answer Card</h2>
+      <ul class="tight">
+        <li><strong>Can help with:</strong> {CAPABILITY_1}, {CAPABILITY_2}, {CAPABILITY_3}.</li>
+        <li><strong>Need from team:</strong> sample inputs, expected outputs, current workflow, constraints, known failure cases.</li>
+        <li><strong>Fast proof:</strong> one narrow workflow with artifacts, logs, validation, and review notes.</li>
+        <li><strong>Main risk:</strong> unclear inputs or runtime constraints; reduce with validation and explicit assumptions.</li>
+        <li><strong>Recovery phrase:</strong> Let me tighten that to the decision point.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="grid" aria-label="Navigation and live notes">
+    <article class="card support span-4 focus-keep" data-search="page map navigation sections" id="toc">
+      <h2>Page Map</h2>
+      <nav class="toc" aria-label="Section index">
+        <a href="#context">Context</a>
+        <a href="#live-notes">Live notes</a>
+        <a href="#answer-bank">Answer bank</a>
+        <a href="#requirements">Requirements capture</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#proof">Proof and validation</a>
+        <a href="#questions">Questions and close</a>
+        <a href="#scorecard">Scorecard</a>
+        <a href="#client-brief-conversion">Client brief conversion</a>
+      </nav>
+    </article>
+    <article class="card primary span-8 focus-keep" data-search="live notes autosave problem input output rules architecture close" id="live-notes">
+      <h2>Live Notes</h2>
+      <p class="muted small">Notes auto-save in this browser only. Keep populated versions private.</p>
+      <div class="notes-grid">
+        <label><strong>Problem / input / output</strong><textarea id="note1" data-note aria-label="Problem input output">Problem:
+Business goal:
+Input sources:
+Current workflow:
+Expected output:</textarea></label>
+        <label><strong>Rules / validation / review</strong><textarea id="note2" data-note aria-label="Rules validation review">Rules:
+Required fields:
+Missing:
+Conflicting:
+Uncertain:
+Review owner:</textarea></label>
+        <label><strong>Architecture capture</strong><textarea id="note3" data-note aria-label="Architecture capture">UI:
+API:
+Queue/workflow:
+Worker/runtime:
+Storage:
+Logs/status:
+Open risks:</textarea></label>
+        <label><strong>Close / follow-up</strong><textarea id="note4" data-note aria-label="Close follow up">What they are stuck on:
+First workflow to prove:
+Samples available:
+Follow-up message:
+Next step:</textarea></label>
+      </div>
+      <p><button id="copyNotes" type="button">Copy all notes</button></p>
+    </article>
+  </section>
+
+  <section class="grid" aria-label="Private context" id="context">
+    <article class="card span-8 focus-keep" data-search="context opportunity business driver risks constraints notes">
+      <h2>Private Context Snapshot</h2>
+      <table>
+        <thead><tr><th>Item</th><th>Private working note</th></tr></thead>
+        <tbody>
+          <tr><td>Business driver</td><td>{BUSINESS_DRIVER}</td></tr>
+          <tr><td>Technical driver</td><td>{TECHNICAL_DRIVER}</td></tr>
+          <tr><td>Likely objection</td><td>{LIKELY_OBJECTION}</td></tr>
+          <tr><td>What to avoid</td><td>{DO_NOT_VOLUNTEER}</td></tr>
+          <tr><td>Best proof path</td><td>{BEST_PROOF_PATH}</td></tr>
+        </tbody>
+      </table>
+    </article>
+    <aside class="card secondary span-4 focus-keep" data-search="private not client facing warning sharing">
+      <h2>Private Use Boundary</h2>
+      <ul>
+        <li>Use this during internal prep, team calls, and live discovery only.</li>
+        <li>Do not share populated notes with external stakeholders.</li>
+        <li>Promote only sanitized, evidence-based points into the client-facing brief.</li>
+        <li>Remove personal notes, names, urgency, compensation, and unapproved files before publishing.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <section class="grid" aria-label="Answer bank" id="answer-bank">
+    <article class="card span-12" data-search="answer bank common questions concise direct architecture ownership delivery">
+      <h2>Answer Bank</h2>
+      <details open><summary>Positioning statement</summary><div class="callout"><p id="ans1" class="copy-target">My lane is {POSITIONING_LANE}. I can contribute by translating the workflow into a small set of validated inputs, deterministic service steps, observable outputs, and a review loop that catches uncertainty instead of hiding it.</p><button class="copy-btn" data-copy="ans1" type="button">Copy</button></div></details>
+      <details open><summary>Small-team delivery</summary><div class="callout"><p id="ans2" class="copy-target">I like to align quickly by turning the architecture into ownership boundaries: modules, services, contracts, proof files, and acceptance criteria. Small reviewable changes and frequent short checkpoints keep the team moving without creating process drag.</p><button class="copy-btn" data-copy="ans2" type="button">Copy</button></div></details>
+      <details open><summary>Architecture answer</summary><div class="callout"><p id="ans3" class="copy-target">I would separate intake, orchestration, execution, artifact storage, and review. The request should create a job record, store an input package, run asynchronously through a workflow or queue, execute in the right worker runtime, then return artifacts, logs, status, and review flags.</p><button class="copy-btn" data-copy="ans3" type="button">Copy</button></div></details>
+      <details><summary>When the answer is unknown</summary><div class="callout"><p id="ans4" class="copy-target">I would qualify that before guessing. My first action would be to check the official docs, confirm runtime constraints, and spike the highest-risk assumption with a small proof before committing the design.</p><button class="copy-btn" data-copy="ans4" type="button">Copy</button></div></details>
+      <details><summary>Quality and observability</summary><div class="callout"><p id="ans5" class="copy-target">I would define quality around repeatability and explainability: tests for core rules, sample input/output fixtures, structured logs, job IDs, versioned inputs, and a review report that shows what was source-driven, assumed, missing, or conflicting.</p><button class="copy-btn" data-copy="ans5" type="button">Copy</button></div></details>
+      <details><summary>AI and governance</summary><div class="callout"><p id="ans6" class="copy-target">I use AI as an accelerator for scaffolding, summarization, search, and review, but I keep proprietary data out of unapproved tools and validate generated code or content against source docs, tests, and runtime evidence.</p><button class="copy-btn" data-copy="ans6" type="button">Copy</button></div></details>
+    </article>
+  </section>
+
+  <section class="grid" aria-label="Requirements capture" id="requirements">
+    <article class="card span-7" data-search="requirements capture input output rules unknowns validation review">
+      <h2>Requirements Capture Template</h2>
+      <pre id="captureTemplate">Input package:
+- Source systems:
+- Files/documents:
+- Structured data:
+- Required fields:
+
+Output package:
+- Primary deliverable:
+- Supporting artifacts:
+- Validation report:
+- Reviewer notes:
+
+Rules:
+- Placement/transformation:
+- Standards:
+- Conflict resolution:
+- Stop conditions:
+
+Unknowns:
+- Missing:
+- Conflicting:
+- Uncertain:
+
+Validation:
+- Required fields:
+- Range checks:
+- Duplicate checks:
+- Source-of-truth checks:
+
+Review:
+- Reviewer:
+- Acceptance criteria:
+- Follow-up defects:</pre>
+      <button data-copy="captureTemplate" type="button">Copy template</button>
+    </article>
+    <article class="card span-5" data-search="clarifying questions precision source truth constraints samples">
+      <h2>Precision Questions</h2>
+      <ol>
+        <li>What system or file is the source of truth?</li>
+        <li>What should happen when sources conflict?</li>
+        <li>What does review-ready mean for the user?</li>
+        <li>Which edge cases should block the job versus produce a flag?</li>
+        <li>What runtime, licensing, data, or security constraints decide the architecture?</li>
+        <li>What is the first workflow worth proving end to end?</li>
+        <li>What artifacts make the result easy to inspect?</li>
+      </ol>
+    </article>
+  </section>
+
+  <section class="grid" aria-label="Architecture" id="architecture">
+    <article class="card span-8" data-search="architecture diagram ui api queue workflow worker storage review logs">
+      <h2>Architecture Talk Track</h2>
+      <p><strong>One-liner:</strong> {ARCHITECTURE_SUMMARY}</p>
+      <pre id="architectureDiagram">Internal UI / source system
+        |
+        v
+API or application service
+        |
+        v
+Job record + input package
+        |
+        v
+Workflow / queue
+        |
+        v
+Domain worker runtime
+        |-- validate inputs
+        |-- run deterministic rules
+        |-- generate output artifacts
+        |-- emit logs and review flags
+        v
+Artifact storage + status
+        |
+        v
+Review UI / notification</pre>
+      <button data-copy="architectureDiagram" type="button">Copy diagram</button>
+    </article>
+    <article class="card span-4" data-search="reliability checklist logs retry dead letter idempotent">
+      <h2>Reliability Checklist</h2>
+      <ul class="tight">
+        <li>Job ID for every run.</li>
+        <li>Idempotent input package.</li>
+        <li>Versioned templates, rules, and input files.</li>
+        <li>Structured logs and status transitions.</li>
+        <li>Timeout, retry, and dead-letter policy.</li>
+        <li>Human review state and artifact retention.</li>
+      </ul>
+    </article>
+    <article class="card span-12" data-search="tech stack services cloud database worker observability security">
+      <h2>Expected Stack Map</h2>
+      <table>
+        <thead><tr><th>Layer</th><th>Candidate</th><th>Why it may fit</th><th>Question to qualify</th></tr></thead>
+        <tbody>
+          <tr><td>Frontend/UI</td><td>{FRONTEND}</td><td>{FRONTEND_REASON}</td><td>{FRONTEND_QUESTION}</td></tr>
+          <tr><td>API/backend</td><td>{API_BACKEND}</td><td>{API_BACKEND_REASON}</td><td>{API_BACKEND_QUESTION}</td></tr>
+          <tr><td>Workflow/queue</td><td>{WORKFLOW_QUEUE}</td><td>{WORKFLOW_QUEUE_REASON}</td><td>{WORKFLOW_QUEUE_QUESTION}</td></tr>
+          <tr><td>Data/storage</td><td>{DATA_STORAGE}</td><td>{DATA_STORAGE_REASON}</td><td>{DATA_STORAGE_QUESTION}</td></tr>
+          <tr><td>Worker/runtime</td><td>{WORKER_RUNTIME}</td><td>{WORKER_RUNTIME_REASON}</td><td>{WORKER_RUNTIME_QUESTION}</td></tr>
+          <tr><td>Observability</td><td>{OBSERVABILITY}</td><td>{OBSERVABILITY_REASON}</td><td>{OBSERVABILITY_QUESTION}</td></tr>
+          <tr><td>Security/governance</td><td>{SECURITY}</td><td>{SECURITY_REASON}</td><td>{SECURITY_QUESTION}</td></tr>
+        </tbody>
+      </table>
+    </article>
+  </section>
+
+  <section class="grid" aria-label="Proof and validation" id="proof">
+    <article class="card accent span-7" data-search="proof validation testing acceptance regression artifacts">
+      <h2>Proof and Validation Playbook</h2>
+      <div class="callout">
+        <p id="proofAnswer" class="copy-target">I would prove this at three levels: input validation, deterministic output, and reviewer acceptance. The proof should make uncertainty visible, produce repeatable artifacts from the same input, and turn corrections into regression tests.</p>
+        <button class="copy-btn" data-copy="proofAnswer" type="button">Copy</button>
+      </div>
+      <ul>
+        <li>Unit tests for parsing, validation, and rules.</li>
+        <li>Golden sample input/output fixtures.</li>
+        <li>Integration run that produces artifacts and logs.</li>
+        <li>Review checklist for first-run workflows.</li>
+        <li>Regression set from reviewer corrections.</li>
+      </ul>
+    </article>
+    <article class="card span-5" data-search="output package deliverables report logs flags">
+      <h2>Output Package</h2>
+      <ul>
+        <li>{PRIMARY_OUTPUT}</li>
+        <li>{SUPPORTING_OUTPUT}</li>
+        <li>Validation report.</li>
+        <li>Change summary.</li>
+        <li>Missing/conflicting/uncertain data list.</li>
+        <li>Logs and rule/template versions.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="grid" aria-label="Questions and close" id="questions">
+    <article class="card span-7" data-search="questions close ask team bottleneck samples next step">
+      <h2>Questions To Ask</h2>
+      <ol>
+        <li>What is the highest-value workflow to prove first?</li>
+        <li>What is automated today and what still requires manual review?</li>
+        <li>What are the top output errors or trust issues?</li>
+        <li>What samples, standards, or proof files can be used safely?</li>
+        <li>What runtime or security constraint could change the architecture?</li>
+        <li>Who reviews the first output and what makes it acceptable?</li>
+      </ol>
+    </article>
+    <article class="card secondary span-5" data-search="closing statement next step pilot path">
+      <h2>Closing Statement</h2>
+      <div class="callout">
+        <p id="closeText" class="copy-target">My recommendation is to start with one narrow, trusted proof rather than a broad rewrite. I would take one representative input package, one target output, and one approved standard, then produce artifacts, logs, validation flags, and reviewer notes. That gives the team a concrete baseline for the larger implementation.</p>
+        <button class="copy-btn" data-copy="closeText" type="button">Copy</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="grid nonessential" aria-label="Scorecard" id="scorecard">
+    <article class="card span-12" data-search="scorecard after call communication technical proof follow up">
+      <h2>Post-Call Scorecard</h2>
+      <table>
+        <thead><tr><th>Area</th><th>Signals to capture</th></tr></thead>
+        <tbody>
+          <tr><td>Business need</td><td>{BUSINESS_NEED_SIGNAL}</td></tr>
+          <tr><td>Technical need</td><td>{TECHNICAL_NEED_SIGNAL}</td></tr>
+          <tr><td>Architecture gap</td><td>{ARCHITECTURE_GAP_SIGNAL}</td></tr>
+          <tr><td>Proof path</td><td>{PROOF_PATH_SIGNAL}</td></tr>
+          <tr><td>Follow-up</td><td>{FOLLOW_UP_SIGNAL}</td></tr>
+        </tbody>
+      </table>
+    </article>
+  </section>
+
+  <section class="grid nonessential" aria-label="Client brief conversion" id="client-brief-conversion">
+    <article class="card span-12" data-search="client facing conversion sanitize promote remove private">
+      <h2>Convert Internal Notes To Client-Facing Brief</h2>
+      <table>
+        <thead><tr><th>Promote</th><th>Remove</th><th>Rewrite as</th></tr></thead>
+        <tbody>
+          <tr><td>Target use case and architecture map.</td><td>Private names, urgency, compensation, meeting details.</td><td>Estimated implementation path.</td></tr>
+          <tr><td>Qualified risks and open questions.</td><td>Personal preparation notes or self-corrections.</td><td>Risk controls and qualification questions.</td></tr>
+          <tr><td>Proof files that are approved for sharing.</td><td>Unapproved files, screenshots, source data, or correspondence.</td><td>Public-safe source proof links.</td></tr>
+          <tr><td>Follow-up message.</td><td>Speculation presented as fact.</td><td>Clear next-step proposal.</td></tr>
+        </tbody>
+      </table>
+    </article>
+  </section>
+</main>
+<script>
+(function(){
+  const root = document.body;
+  const search = document.getElementById('search');
+  const count = document.getElementById('matchCount');
+  const cards = Array.from(document.querySelectorAll('[data-search]'));
+  const storagePrefix = 'opportunity-live-call-template-v1:';
+
+  function filterCards(){
+    const query = (search?.value || '').toLowerCase().trim();
+    let visible = 0;
+    cards.forEach((card) => {
+      const haystack = `${card.textContent} ${card.getAttribute('data-search') || ''}`.toLowerCase();
+      const hit = !query || haystack.includes(query);
+      card.classList.toggle('hide', !hit);
+      if(hit) visible += 1;
+    });
+    if(count) count.textContent = query ? `${visible} match${visible === 1 ? '' : 'es'}` : 'All cards';
+  }
+
+  search?.addEventListener('input', filterCards);
+  document.getElementById('focusToggle')?.addEventListener('click', () => root.classList.toggle('focus'));
+  document.getElementById('textToggle')?.addEventListener('click', () => root.classList.toggle('large-text'));
+  document.getElementById('themeToggle')?.addEventListener('click', () => root.classList.toggle('light-mode'));
+  document.getElementById('openAll')?.addEventListener('click', () => document.querySelectorAll('details').forEach((item) => { item.open = true; }));
+  document.getElementById('closeAll')?.addEventListener('click', () => document.querySelectorAll('details').forEach((item) => { item.open = false; }));
+
+  document.querySelectorAll('[data-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const target = document.getElementById(button.getAttribute('data-copy'));
+      const text = target ? target.innerText || target.value || target.textContent || '' : '';
+      try{
+        await navigator.clipboard.writeText(text.trim());
+        const prior = button.textContent;
+        button.textContent = 'Copied';
+        setTimeout(() => { button.textContent = prior || 'Copy'; }, 900);
+      }catch(error){
+        button.textContent = 'Select text';
+        setTimeout(() => { button.textContent = 'Copy'; }, 1200);
+      }
+    });
+  });
+
+  const noteAreas = Array.from(document.querySelectorAll('textarea[data-note]'));
+  noteAreas.forEach((area) => {
+    const key = `${storagePrefix}${area.id}`;
+    const saved = localStorage.getItem(key);
+    if(saved) area.value = saved;
+    area.addEventListener('input', () => localStorage.setItem(key, area.value));
+  });
+
+  document.getElementById('copyNotes')?.addEventListener('click', async () => {
+    const text = noteAreas.map((area) => `## ${area.getAttribute('aria-label') || area.id}\n${area.value}`).join('\n\n');
+    try{ await navigator.clipboard.writeText(text.trim()); }catch(error){}
+  });
+
+  const targetTime = document.getElementById('targetTime');
+  const savedTarget = localStorage.getItem(`${storagePrefix}targetTime`);
+  if(targetTime && savedTarget) targetTime.value = savedTarget;
+  targetTime?.addEventListener('input', () => localStorage.setItem(`${storagePrefix}targetTime`, targetTime.value));
+
+  function updateTimer(){
+    const countdown = document.getElementById('countdown');
+    const label = document.getElementById('timerLabel');
+    if(!countdown || !targetTime?.value){
+      if(countdown) countdown.textContent = 'Set time';
+      return;
+    }
+    let diff = new Date(targetTime.value).getTime() - Date.now();
+    if(Number.isNaN(diff)){
+      countdown.textContent = 'Set time';
+      return;
+    }
+    if(diff <= 0){
+      countdown.textContent = 'LIVE / POST-START';
+      if(label) label.textContent = 'Use notes, answer bank, architecture, questions, and close.';
+      return;
+    }
+    const hours = Math.floor(diff / 3600000);
+    diff -= hours * 3600000;
+    const minutes = Math.floor(diff / 60000);
+    diff -= minutes * 60000;
+    const seconds = Math.floor(diff / 1000);
+    countdown.textContent = `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
+})();
+</script>
+</body>
+</html>

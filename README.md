@@ -27,6 +27,13 @@ python3 scripts/verify_readiness.py
 
 7. Push to GitHub and enable GitHub Pages from `main` / root.
 
+## Template Variants
+
+- [`index.html`](index.html) is the client-facing rendered brief for GitHub Pages.
+- [`templates/internal-live-call-control-panel.template.html`](templates/internal-live-call-control-panel.template.html) is the private internal companion for live calls, search, copy-ready answer shapes, auto-saved notes, architecture capture, and post-call scoring.
+
+Use the internal template only as a placeholder source in this public repo. Populated live-call pages should stay local or in a private repo. See [`docs/INTERNAL_LIVE_CALL_TEMPLATE_GUIDE.md`](docs/INTERNAL_LIVE_CALL_TEMPLATE_GUIDE.md).
+
 ## Four-Color Brand System
 
 Set these four values first:

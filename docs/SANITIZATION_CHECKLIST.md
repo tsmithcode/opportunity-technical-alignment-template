@@ -5,7 +5,7 @@ Run this before publishing or sharing an opportunity proof.
 ## Remove
 
 - Raw conversation records.
-- Private emails and message bodies.
+- Nonpublic correspondence and message bodies.
 - Meeting links, meeting IDs, phone numbers, and calendar descriptions.
 - Recruiter, evaluator, or internal staff names unless explicitly approved and necessary.
 - Compensation, rate, staffing, or internal urgency details unless deliberately intended for the audience.
@@ -24,6 +24,7 @@ Run this before publishing or sharing an opportunity proof.
 - All in-page links are client-safe.
 - The repo has no raw zip archives unless intentionally released.
 - The final package passes a scan for private terms and known sensitive strings.
+- Populated internal live-call pages are local or in a private repo, not in the public proof repo.
 
 ## Preferred Language
 
@@ -35,6 +36,7 @@ Use:
 - "public-safe proof"
 - "estimated implementation path"
 - "pilot path"
+- "internal live call notes" for private prep only
 
 Avoid:
 
@@ -43,4 +45,3 @@ Avoid:
 - Internal staffing details.
 - Screening-process language in client-facing proof unless the artifact is explicitly private.
 - Self-undermining framing.
-

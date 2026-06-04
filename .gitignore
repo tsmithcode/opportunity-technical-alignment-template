@@ -8,3 +8,9 @@ node_modules/
 coverage/
 tmp/
 __pycache__/
+private/
+local-private/
+*.private.html
+*.internal.html
+*live-call*.html
+!templates/internal-live-call-control-panel.template.html
